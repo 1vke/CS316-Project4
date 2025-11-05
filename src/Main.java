@@ -1,3 +1,5 @@
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -15,7 +17,7 @@ public class Main {
 		ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 		List<Future<Integer>> futures = new ArrayList<>();
 
-		long startTime = System.currentTimeMillis();
+		Instant start = Instant.now();
 
 		for (int i = 0; i < numThreads; i++) {
 			Callable<Integer> task = new SimulationTask(pointsPerTask);
@@ -29,8 +31,8 @@ public class Main {
 
 		executor.shutdown();
 
-		long endTime = System.currentTimeMillis();
-		long runtime = endTime - startTime;
+		Instant finish = Instant.now();
+        long runtime = Duration.between(start, finish).toMillis();
 
 		double piEstimate = 4.0 * totalInsideCircle / totalPoints;
 
