@@ -10,22 +10,22 @@ import java.util.concurrent.Future;
 
 public class Main {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
-		int totalPoints = 1000000;
+		long totalPoints = 1_000_000L;
 		int numThreads = 4;
-		int pointsPerTask = totalPoints / numThreads;
+		long pointsPerTask = totalPoints / numThreads;
 
 		ExecutorService executor = Executors.newFixedThreadPool(numThreads);
-		List<Future<Integer>> futures = new ArrayList<>();
+		List<Future<Long>> futures = new ArrayList<>();
 
 		Instant start = Instant.now();
 
 		for (int i = 0; i < numThreads; i++) {
-			Callable<Integer> task = new SimulationTask(pointsPerTask);
+			Callable<Long> task = new SimulationTask(pointsPerTask);
 			futures.add(executor.submit(task));
 		}
 
 		int totalInsideCircle = 0;
-		for (Future<Integer> future : futures) {
+		for (Future<Long> future : futures) {
 			totalInsideCircle += future.get();
 		}
 
