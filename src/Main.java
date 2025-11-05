@@ -1,0 +1,42 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+public class Main {
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
+		int totalPoints = 1000000;
+		int numThreads = 4;
+		int pointsPerTask = totalPoints / numThreads;
+
+		ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+		List<Future<Integer>> futures = new ArrayList<>();
+
+		long startTime = System.currentTimeMillis();
+
+		for (int i = 0; i < numThreads; i++) {
+			Callable<Integer> task = new SimulationTask(pointsPerTask);
+			futures.add(executor.submit(task));
+		}
+
+		int totalInsideCircle = 0;
+		for (Future<Integer> future : futures) {
+			totalInsideCircle += future.get();
+		}
+
+		executor.shutdown();
+
+		long endTime = System.currentTimeMillis();
+		long runtime = endTime - startTime;
+
+		double piEstimate = 4.0 * totalInsideCircle / totalPoints;
+
+		System.out.println("Total points: " + totalPoints);
+		System.out.println("Points inside circle: " + totalInsideCircle);
+		System.out.println("Pi estimate: " + piEstimate);
+		System.out.println("Runtime: " + runtime + " ms");
+	}
+}
