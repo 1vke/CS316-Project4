@@ -1,4 +1,5 @@
 import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadLocalRandom;
 
 class SimulationTask implements Callable<Long> {
 	private final Long numPoints;
@@ -11,8 +12,8 @@ class SimulationTask implements Callable<Long> {
 	public Long call() {
 		Long insideCircle = 0L;
 		for (long i = 0; i < numPoints; i++) {
-			double x = Math.random();
-			double y = Math.random();
+			double x = ThreadLocalRandom.current().nextDouble();
+			double y = ThreadLocalRandom.current().nextDouble();
 			if (x * x + y * y <= 1) {
 				insideCircle++;
 			}
