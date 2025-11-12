@@ -10,7 +10,7 @@ class SimulationTask implements Callable<Long> {
 	@Override
 	public Long call() {
 		Long insideCircle = 0L;
-		for (int i = 0; i < numPoints; i++) {
+		for (long i = 0; i < numPoints; i++) {
 			double x = Math.random();
 			double y = Math.random();
 			if (x * x + y * y <= 1) {

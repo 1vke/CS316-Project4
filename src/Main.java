@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
 
 public class Main {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
-		long totalPoints = 1_000_000L;
+		long totalPoints = 10_000_000_000L;
 		int numThreads = 4;
 		long pointsPerTask = totalPoints / numThreads;
 
@@ -24,7 +24,7 @@ public class Main {
 			futures.add(executor.submit(task));
 		}
 
-		int totalInsideCircle = 0;
+		long totalInsideCircle = 0;
 		for (Future<Long> future : futures) {
 			totalInsideCircle += future.get();
 		}
