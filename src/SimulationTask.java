@@ -11,6 +11,9 @@ class SimulationTask implements Callable<Long> {
 	@Override
 	public Long call() {
 		Long insideCircle = 0L;
+
+		// If `i` is of int type here, it will cause an infinite loop
+		// with a large number of points
 		for (long i = 0; i < numPoints; i++) {
 			double x = ThreadLocalRandom.current().nextDouble();
 			double y = ThreadLocalRandom.current().nextDouble();
